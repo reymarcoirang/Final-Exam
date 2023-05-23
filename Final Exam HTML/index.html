@@ -11,7 +11,6 @@
     <div class="container">
       
       <h1>Customer Information</h1>
-      <form method="post">
         <div class="form-row">
           <div class="col-md-4 mb-3">
             <label for="studno">Student ID</label>
@@ -32,9 +31,8 @@
             </div>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary" onclick="add_record()">Add Customer</button>
-        <button type="reset" class="btn btn-primary">Clear</button>
-      </form>
+        <button  class="btn btn-primary" onclick="add_record()">Add Customer</button>
+        <button class="btn btn-primary" onclick="clear_text()">Clear</button>
       <hr class="my-5">
       <h3 class="mb-5">Customer Table</h3>
       <p class="lead">
@@ -55,10 +53,8 @@
         </tbody>
       </table>
       <div class="d-flex justify-content-end gap-3">
-        <form method="post">
-          <button class="btn btn-success " type="button" onclick="update_record()">Update</button>
-          <button class="btn btn-danger " onclick="delete_record()" type="button">Delete</button>
-        </form>
+          <button class="btn btn-success " onclick="update_record()">Update</button>
+          <button class="btn btn-danger " onclick="delete_record()" >Delete</button>
       </div>
 
     </div>
@@ -91,6 +87,15 @@
           })
       });
 
+      function clear_text(){
+        $(document).ready(function() {
+            document.getElementById("studno").value = "";
+            document.getElementById("first_name").value = "";
+            document.getElementById("last_name").value = "";
+            document.getElementById("add_ress").value = "";
+        });
+      }
+
       function add_record() {
             var values = {
                 first_name : document.getElementById("first_name").value,
@@ -102,9 +107,9 @@
                       url: "http://final-exam.test/customer/add",
                       method: "POST",
                       data: JSON.stringify(values),
-                      success: function(response) {
+                      complete: function(response) {
                           alert(`Customer was added`);
-                          console.log(JSON.stringify(values))
+                          document.location.reload();
                       },
                   });
                 })
@@ -139,7 +144,7 @@
               data: JSON.stringify(values),
               complete: function(response) {
                 alert(`Customer ${studno} was updated`);
-                window.location.reload();
+                document.location.reload();
 
               },
 
@@ -154,7 +159,7 @@
                       method: "DELETE",
                       complete: function(response) {
                           alert(`Customer ${studno} was deleted`);
-                          window.location.reload();
+                          document.location.reload();
                       },
                   });
                 })
